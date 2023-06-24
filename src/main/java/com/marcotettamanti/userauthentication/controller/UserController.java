@@ -37,7 +37,7 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDTO> insert(@Validated @RequestBody User obj){
+  public ResponseEntity<UserDTO> insert(@Validated @RequestBody UserDTO obj){
     UserDTO user = service.save(obj);
     return ResponseEntity.status(201).body(user);
   }

@@ -27,14 +27,9 @@ public class User {
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  @NotBlank(message = "Campo obrigatório")
-  @Size(max = 60)
+  
   private String name;
-
-  @Email
   private String email;
-
   private String telephone;
   private String password;
 }

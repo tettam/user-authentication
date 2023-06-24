@@ -30,7 +30,7 @@ public class UserService {
     return dtoList;
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public UserDTO findById(Long id){
     try {
       User entity = repository.findById(id).get();
@@ -43,10 +43,11 @@ public class UserService {
     } 
   }
 
-  public UserDTO save(User object){
+  @Transactional
+  public UserDTO save(UserDTO object){
     try {
-      User entity = repository.save(object);
-      UserDTO dto = new UserDTO(entity);
+      User entity = new UserDTO().convertDtoToUser(object);
+      UserDTO dto = new UserDTO(repository.saveAndFlush(entity));
       return dto;
 
     } catch (Exception e) {
