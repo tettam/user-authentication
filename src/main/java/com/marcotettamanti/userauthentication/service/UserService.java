@@ -20,6 +20,9 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
+  @Autowired
+  private EmailService email;
+
   @Transactional(readOnly = true)
   public List<UserDTO> findAll(){
     List<User> entity = repository.findAll();
@@ -50,6 +53,7 @@ public class UserService {
     try {
       User entity = new UserDTO().convertDtoToUser(object);
       UserDTO dto = new UserDTO(repository.saveAndFlush(entity));
+      email.sendEmail(dto.getEmail(), "Cadastro de usuário", "Seu cadastro criado com sucesso! Em breve você receberá a senha de acesso por email");
       return dto;
 
     } catch (DataAccessException e) {
