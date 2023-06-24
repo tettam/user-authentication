@@ -26,19 +26,19 @@ public class UserController {
 
   @GetMapping
   public ResponseEntity<List<UserDTO>> findById(){
-    List<UserDTO> user = service.findAll();
-    return ResponseEntity.ok().body(user);
+    List<UserDTO> userDto = service.findAll();
+    return ResponseEntity.ok().body(userDto);
   }
 
   @GetMapping(value = "{id}")
   public ResponseEntity<UserDTO> findById(@PathVariable Long id){
-    UserDTO user = service.findById(id);
-    return ResponseEntity.ok().body(user);
+    UserDTO userDto = service.findById(id);
+    return ResponseEntity.ok().body(userDto);
   }
 
   @PostMapping
   public ResponseEntity<UserDTO> insert(@Validated @RequestBody UserDTO obj){
-    UserDTO user = service.save(obj);
-    return ResponseEntity.status(201).body(user);
+    UserDTO userDto = service.save(obj);
+    return ResponseEntity.status(201).body(userDto);
   }
 }

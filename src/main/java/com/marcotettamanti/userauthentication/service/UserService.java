@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
+  @Transactional(readOnly = true)
   public List<UserDTO> findAll(){
     List<User> entity = repository.findAll();
     List<UserDTO> dtoList = new ArrayList<>();
@@ -50,8 +52,8 @@ public class UserService {
       UserDTO dto = new UserDTO(repository.saveAndFlush(entity));
       return dto;
 
-    } catch (Exception e) {
-      throw new RuntimeException("Erro ao cadastrar usuário", e);
+    } catch (DataAccessException e) {
+      throw new UserExceptions("Erro ao cadastrar usuário " + e.getMessage());
     } 
   }
 }
