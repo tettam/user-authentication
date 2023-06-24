@@ -1,4 +1,4 @@
-package com.marcotettamanti.userauthentication.repository;
+package com.marcotettamanti.userauthentication.repositoty;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
