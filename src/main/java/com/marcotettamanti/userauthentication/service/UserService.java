@@ -1,12 +1,14 @@
 package com.marcotettamanti.userauthentication.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.marcotettamanti.userauthentication.dto.UserDTO;
 import com.marcotettamanti.userauthentication.exceptions.UserExceptions;
 import com.marcotettamanti.userauthentication.model.entities.User;
 import com.marcotettamanti.userauthentication.repositoty.UserRepository;
@@ -17,14 +19,23 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
-  public List<User> findAll(){
-    return repository.findAll();
+  public List<UserDTO> findAll(){
+    List<User> entity = repository.findAll();
+    List<UserDTO> dtoList = new ArrayList<>();
+    for (User obj : entity) {
+      UserDTO dto = new UserDTO(obj);
+      dtoList.add(dto);
+    }
+
+    return dtoList;
   }
 
-  public User findById(Long id){
-    
+  @Transactional
+  public UserDTO findById(Long id){
     try {
-      return repository.findById(id).get();
+      User entity = repository.findById(id).get();
+      UserDTO dto = new UserDTO(entity);
+      return dto;
       
     } catch (NoSuchElementException e) {
       e.printStackTrace();
@@ -32,11 +43,13 @@ public class UserService {
     } 
   }
 
-  public User save(User object){
+  public UserDTO save(User object){
     try {
-       return repository.save(object);
+      User entity = repository.save(object);
+      UserDTO dto = new UserDTO(entity);
+      return dto;
+
     } catch (Exception e) {
-      e.printStackTrace();
       throw new RuntimeException("Erro ao cadastrar usuário", e);
     } 
   }
