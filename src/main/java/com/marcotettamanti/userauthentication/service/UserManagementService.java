@@ -3,12 +3,14 @@ package com.marcotettamanti.userauthentication.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.marcotettamanti.userauthentication.model.entities.User;
+import com.marcotettamanti.userauthentication.model.enums.ServiceTypeTemplate;
 import com.marcotettamanti.userauthentication.repositoty.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,7 +30,12 @@ public class UserManagementService {
     user.setCodSecurity(getCodRecoveryPassword(user.getId()));
     user.setDateSendCode(LocalDateTime.now());
     repository.saveAndFlush(user);
-    emailService.sendEmail(user.getEmail(), "Código de alteração de senha", "Olá, o seu código para recuperação de senha é : " + user.getCodSecurity());
+    Map<String , Object> properties = new HashMap<>();
+    properties.put("name", user.getName());
+    properties.put("message", "Será necessário seu código de segurança para alterar a senha.");
+    properties.put("codSecurity" , user.getCodSecurity());
+    emailService.stylizedEmail(user.getEmail(), "Código de Segurança", ServiceTypeTemplate.RECOVERY,properties);
+    //emailService.sendEmail(user.getEmail(), "Código de alteração de senha", "Olá, o seu código para recuperação de senha é : " + user.getCodSecurity());
     return "Código enviado";
   }
 

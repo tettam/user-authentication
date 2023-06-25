@@ -1,7 +1,9 @@
 package com.marcotettamanti.userauthentication.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marcotettamanti.userauthentication.dto.UserDTO;
 import com.marcotettamanti.userauthentication.exceptions.UserExceptions;
 import com.marcotettamanti.userauthentication.model.entities.User;
+import com.marcotettamanti.userauthentication.model.enums.ServiceTypeTemplate;
 import com.marcotettamanti.userauthentication.repositoty.UserRepository;
 
 @Service
@@ -54,6 +57,10 @@ public class UserService {
       User entity = new UserDTO().convertDtoToUser(object);
       UserDTO dto = new UserDTO(repository.saveAndFlush(entity));
       //email.sendEmail(dto.getEmail(), "Cadastro de usuário", "Seu cadastro criado com sucesso! Em breve você receberá a senha de acesso por email");
+      Map<String, Object> properties = new HashMap<>();
+      properties.put("name", dto.getName());
+      properties.put("message", "Seu cadastro foi criado com sucesso! Em breve você receberá um código de acesso para alterar sua senha.");
+      email.stylizedEmail(dto.getEmail(), "Cadastro Realizado", ServiceTypeTemplate.CONFIRMATION ,properties);
       return dto;
 
     } catch (DataAccessException e) {
