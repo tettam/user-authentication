@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcotettamanti.userauthentication.dto.UserDTO;
+import com.marcotettamanti.userauthentication.model.entities.User;
 import com.marcotettamanti.userauthentication.service.UserManagementService;
 import com.marcotettamanti.userauthentication.service.UserService;
 
@@ -46,8 +47,14 @@ public class UserController {
   }
 
   @PostMapping(value = "/management")
-  public String codRecovery(@RequestParam("email") String email){
-    String resultUpdatePassword = management.sendEmailCod(email);
+  public String codRecovery(@RequestBody User user){
+    String resultUpdatePassword = management.sendEmailCod(user.getEmail());
+    return resultUpdatePassword;
+  }
+
+   @PostMapping(value = "/change-password")
+  public String changePassword(@RequestBody User user){
+    String resultUpdatePassword = management.changePassword(user);
     return resultUpdatePassword;
   }
 }
