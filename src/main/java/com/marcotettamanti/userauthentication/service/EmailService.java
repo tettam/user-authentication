@@ -15,7 +15,7 @@ public class EmailService {
   private String email;
 
   public String sendEmail (String from, String title, String messageEmail) {
-
+    
     try {
       SimpleMailMessage message = new SimpleMailMessage();
       message.setFrom(email);

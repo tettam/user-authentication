@@ -34,6 +34,6 @@ public class User {
   private String email;
   private String telephone;
   private String password;
-  private LocalDateTime dateValidateCod;
+  private LocalDateTime dateSendCode;
   private String codSecurity;
 }
