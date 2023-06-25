@@ -1,5 +1,8 @@
 package com.marcotettamanti.userauthentication.model.entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +30,10 @@ public class User {
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
   private String name;
   private String email;
   private String telephone;
   private String password;
+  private LocalDateTime dateValidateCod;
+  private String codSecurity;
 }
