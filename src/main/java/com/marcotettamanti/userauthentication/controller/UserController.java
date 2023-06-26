@@ -45,13 +45,14 @@ public class UserController {
     return ResponseEntity.status(201).body(userDto);
   }
 
-  @PostMapping(value = "/management")
+  //Management
+  @PostMapping(value = "/management/new-cod")
   public String codRecovery(@RequestBody User user){
     String resultUpdatePassword = management.sendEmailCod(user.getEmail());
     return resultUpdatePassword;
   }
 
-   @PostMapping(value = "/change-password")
+  @PostMapping(value = "/management/change-password")
   public String changePassword(@RequestBody User user){
     String resultUpdatePassword = management.changePassword(user);
     return resultUpdatePassword;

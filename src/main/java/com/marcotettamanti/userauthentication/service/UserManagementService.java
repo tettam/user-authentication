@@ -27,6 +27,10 @@ public class UserManagementService {
 
   public String sendEmailCod(String email){
     User user = repository.findByEmail(email);
+    if(user == null){
+      return "Email não cadastrado";
+    }
+    
     user.setCodSecurity(getCodRecoveryPassword(user.getId()));
     user.setDateSendCode(LocalDateTime.now());
     repository.saveAndFlush(user);
