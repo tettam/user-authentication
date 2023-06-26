@@ -2,6 +2,7 @@ package com.marcotettamanti.userauthentication.model.entities;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "tb_user")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User implements UserDetails {
+public class User {
   
   @Id
   @EqualsAndHashCode.Include
@@ -46,35 +47,4 @@ public class User implements UserDetails {
   @JoinColumn(name = "user_id"), inverseJoinColumns = 
   @JoinColumn(name = "permission_id"))
   private Set<Permission> permissions;
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
-  }
-  @Override
-  public String getUsername() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
-  }
-  @Override
-  public boolean isAccountNonExpired() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
-  }
-  @Override
-  public boolean isAccountNonLocked() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
-  }
-  @Override
-  public boolean isCredentialsNonExpired() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
-  }
-  @Override
-  public boolean isEnabled() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
-  }
 }
