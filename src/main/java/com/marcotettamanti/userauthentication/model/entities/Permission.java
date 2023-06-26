@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "permission")
+@Table(name = "tb_permission")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Permission {
   
@@ -27,8 +28,9 @@ public class Permission {
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String name;
 
-  @ManyToMany(mappedBy = "permissions")
-  private Set<User> users;
+  @OneToMany(mappedBy = "permission")
+  private Set<UserPermission> userPermission;
 }
