@@ -29,7 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "tb_user")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+public class User implements UserDetails{
   
   @Id
   @EqualsAndHashCode.Include
@@ -46,5 +46,41 @@ public class User {
   @JoinTable(name = "user_permission" , joinColumns = 
   @JoinColumn(name = "user_id"), inverseJoinColumns = 
   @JoinColumn(name = "permission_id"))
-  private Set<Permission> permissions;
+  private Set<Permission> permissions = new HashSet<>();
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+  }
+
+  @Override
+  public String getUsername() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
+  }
+
+  @Override
+  public boolean isEnabled() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
+  }
 }
