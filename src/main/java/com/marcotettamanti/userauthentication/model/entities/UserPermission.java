@@ -1,5 +1,7 @@
 package com.marcotettamanti.userauthentication.model.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.marcotettamanti.userauthentication.model.primarykey.UserPermissionPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "tb_user_permission")
-public class UserPermission {
+public class UserPermission implements GrantedAuthority {
   
   @EmbeddedId
   private UserPermissionPK id;
@@ -28,4 +30,9 @@ public class UserPermission {
   @ManyToOne
   @MapsId("permissionId")
   private Permission permission;
+
+  @Override
+  public String getAuthority() {
+    return permission.getName();
+  }
 }
