@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -19,6 +18,6 @@ public class Permission {
   private Long id;
   private String name;
 
-  @ManyToMany
-  private Set<User> listUser;
+  @ManyToMany(mappedBy = "permissions")
+  private Set<User> users;
 }

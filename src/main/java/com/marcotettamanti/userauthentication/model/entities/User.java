@@ -1,6 +1,5 @@
 package com.marcotettamanti.userauthentication.model.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -12,12 +11,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,7 +42,10 @@ public class User implements UserDetails {
   private String codSecurity;
 
   @ManyToMany
-  private Set<Permission> listPermission;
+  @JoinTable(name = "user_permission" , joinColumns = 
+  @JoinColumn(name = "user_id"), inverseJoinColumns = 
+  @JoinColumn(name = "permission_id"))
+  private Set<Permission> permissions;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
