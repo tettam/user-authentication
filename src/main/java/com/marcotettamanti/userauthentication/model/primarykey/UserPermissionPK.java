@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Embeddable
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserPermissionPK implements Serializable {
   
   private Long userId;

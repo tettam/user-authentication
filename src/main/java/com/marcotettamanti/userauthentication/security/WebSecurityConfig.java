@@ -6,16 +6,23 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
+@EnableMethodSecurity
 public class WebSecurityConfig {
+
+  @Bean
+  public AuthFilterToken authFilterToken(){
+    return new AuthFilterToken();
+  }
 
   @Bean
   public PasswordEncoder passwordEncoder(){
@@ -27,7 +34,6 @@ public class WebSecurityConfig {
     return authentication.getAuthenticationManager();
   }
 
-
   @Bean
   @Order(2)
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,17 +42,10 @@ public class WebSecurityConfig {
       .authorizeHttpRequests(auth -> {
         auth.requestMatchers("/api/users/management/**").permitAll();
         auth.anyRequest().authenticated();}) 
-      .httpBasic(Customizer.withDefaults())
+      .httpBasic(basic -> basic.disable())
       .csrf(cross -> cross.disable())
-      .cors(cors -> {
-        cors.configurationSource(request -> {
-          CorsConfiguration corsConfig = new CorsConfiguration();
-          corsConfig.addAllowedOrigin("*");
-          corsConfig.addAllowedMethod("*");
-          corsConfig.addAllowedHeader("*");
-          return corsConfig;
-        });
-      })
+      .cors(cors -> cors.disable())
+      .addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class)
       .build();
   }
 

@@ -18,17 +18,20 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtil {
-  static int MILLISECONDS_VALIDATION_TOKEN = 900000;
-  
-  private String keySecrety = "keysecretyToken";
-  private int validateToken = MILLISECONDS_VALIDATION_TOKEN;
+  private static int MILLISECONDS_VALIDATION_TOKEN = 900000;
+  private static final String keySecrety = "keysecretyToken";
   private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
+  Date currentTime = new Date();
+  Date expirationDateToken = new Date(currentTime.getTime() + MILLISECONDS_VALIDATION_TOKEN);
+
   public String generateTokenUsername(User user){
-    return 
-      Jwts
-      .builder().setSubject(user.getUsername())
-      .setIssuedAt(new Date(new Date().getTime() + validateToken))
+    return Jwts
+      .builder()
+      .setSubject(user.getEmail())
+      .setIssuedAt(currentTime)
+      .claim("id", user.getId())
+      .setExpiration(expirationDateToken)
       .signWith(SignatureAlgorithm.HS512, keySecrety)
       .compact();
   }
@@ -46,5 +49,9 @@ public class JwtUtil {
       logger.error("Token não suportado", e.getMessage());
     }
     return false;
+  }
+
+  public String getEmailToken(String token){
+    return Jwts.parser().setSigningKey(keySecrety).parseClaimsJws(token).getBody().getSubject();
   }
 }

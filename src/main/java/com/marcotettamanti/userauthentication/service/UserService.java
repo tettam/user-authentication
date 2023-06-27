@@ -59,7 +59,7 @@ public class UserService {
       Map<String, Object> properties = new HashMap<>();
       properties.put("name", dto.getName());
       properties.put("message", "Seu cadastro foi criado com sucesso! Em breve você receberá um código de acesso para alterar sua senha.");
-      email.stylizedEmail(dto.getEmail(), "Cadastro Realizado", ServiceTypeTemplate.CONFIRMATION ,properties);
+      //email.stylizedEmail(dto.getEmail(), "Cadastro Realizado", ServiceTypeTemplate.CONFIRMATION ,properties);
       return dto;
 
     } catch (DataAccessException e) {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.marcotettamanti.userauthentication.model.entities.User;
@@ -24,6 +25,8 @@ public class UserManagementService {
   private UserRepository repository;
   @Autowired
   private EmailService emailService;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   public String sendEmailCod(String email){
     User user = repository.findByEmail(email);
@@ -38,8 +41,7 @@ public class UserManagementService {
     properties.put("name", user.getName());
     properties.put("message", "Será necessário seu código de segurança para alterar a senha.");
     properties.put("codSecurity" , user.getCodSecurity());
-    emailService.stylizedEmail(user.getEmail(), "Código de Segurança", ServiceTypeTemplate.RECOVERY,properties);
-    //emailService.sendEmail(user.getEmail(), "Código de alteração de senha", "Olá, o seu código para recuperação de senha é : " + user.getCodSecurity());
+    //emailService.stylizedEmail(user.getEmail(), "Código de Segurança", ServiceTypeTemplate.RECOVERY,properties);
     return "Código enviado";
   }
 
@@ -53,7 +55,9 @@ public class UserManagementService {
     if(minutesdiff > CODE_TIME_SECONDS){
       return "Código de validação foi expirado, solicite um novo código!";
     }
-    user.setPassword(obj.getPassword());
+
+    String passwordEncrypt = passwordEncoder.encode(obj.getPassword());
+    user.setPassword(passwordEncrypt);
     user.setCodSecurity(null);
     repository.saveAndFlush(user);
     return "Senha alterada com sucesso!";
