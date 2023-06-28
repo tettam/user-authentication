@@ -1,5 +1,6 @@
 package com.marcotettamanti.userauthentication.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -19,10 +20,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-  @Bean
-  public AuthFilterToken authFilterToken(){
-    return new AuthFilterToken();
-  }
+  @Autowired
+  public FilterToken filterToken;
+  @Autowired
+  public CustomAuthenticationEntryPoint unauthorizedHandler;
 
   @Bean
   public PasswordEncoder passwordEncoder(){
@@ -38,6 +39,7 @@ public class WebSecurityConfig {
   @Order(2)
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
+      .exceptionHandling(expcetion -> expcetion.authenticationEntryPoint(unauthorizedHandler))
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> {
         auth.requestMatchers("/api/users/management/**").permitAll();
@@ -45,7 +47,7 @@ public class WebSecurityConfig {
       .httpBasic(basic -> basic.disable())
       .csrf(cross -> cross.disable())
       .cors(cors -> cors.disable())
-      .addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter.class)
       .build();
   }
 

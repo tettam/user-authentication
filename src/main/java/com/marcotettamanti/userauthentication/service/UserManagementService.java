@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.marcotettamanti.userauthentication.model.entities.User;
-import com.marcotettamanti.userauthentication.model.enums.ServiceTypeTemplate;
 import com.marcotettamanti.userauthentication.repositoty.UserRepository;
 
 import jakarta.transaction.Transactional;
