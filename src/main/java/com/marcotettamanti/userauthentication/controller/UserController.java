@@ -1,5 +1,6 @@
 package com.marcotettamanti.userauthentication.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,7 @@ import com.marcotettamanti.userauthentication.service.UserService;
 
 @RestController
 @RequestMapping(value = "api/users")
+@CrossOrigin
 public class UserController {
 
   @Autowired
@@ -71,18 +74,17 @@ public class UserController {
   }
 
   @PostMapping("/management/login")
-  public ResponseEntity<String> login(@RequestBody User user){
+  public ResponseEntity<?> login(@RequestBody User user){
+    System.out.println(user);
     UsernamePasswordAuthenticationToken usernamePasswordAuthentication =
       new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
       Authentication authentication = authorizationManager.authenticate(usernamePasswordAuthentication);
       
       User userAuthentication = (User) authentication.getPrincipal(); 
       String token = jwtUtil.generateTokenUsername(userAuthentication);
-      return ResponseEntity.ok(token);
-    // Authentication authentication = authorizationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail()  , user.getPassword()));
-    // SecurityContextHolder.getContext().setAuthentication(authentication);
-    // User userAuthentication = (User) authentication.getPrincipal();
-    // String token = jwtUtil.generateTokenUsername(userAuthentication);
-    // return ResponseEntity.ok(token);
+      HashMap<String, String> map = new HashMap<>();
+      map.put("Token", token);
+      return ResponseEntity.ok(map);
+
   }
 }

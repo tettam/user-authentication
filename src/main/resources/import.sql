@@ -1,5 +1,5 @@
 INSERT INTO tb_permission(name) VALUES ('administrador')
 INSERT INTO tb_permission(name) VALUES ('cliente')
 INSERT INTO tb_permission(name) VALUES ('fornecedor')
-INSERT INTO tb_user (name , email, telephone) VALUES ('Marco', 'authentication00000@gmail.com', '85000000000')
+INSERT INTO tb_user (name , email, telephone, password) VALUES ('Marco', 'authentication00000@gmail.com', '85000000000', 12345)
 INSERT INTO tb_user_permission (user_id, permission_id) VALUES (1 , 1) 

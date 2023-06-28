@@ -12,7 +12,7 @@ import com.marcotettamanti.userauthentication.model.entities.User;
 
 @Component
 public class JwtUtil {
-  private static int MILLISECONDS_VALIDATION_TOKEN = 900;
+  private static int MILLISECONDS_VALIDATION_TOKEN = 900000;
 
   Date currentTime = new Date();
   Date expirationDateToken = new Date(currentTime.getTime() + MILLISECONDS_VALIDATION_TOKEN);
