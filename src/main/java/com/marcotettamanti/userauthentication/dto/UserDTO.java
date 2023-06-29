@@ -27,12 +27,12 @@ public class UserDTO {
   @NotBlank
   @Email
   private String email;
-  private String telephone;
+  private String phone;
 
   public UserDTO(User user) {
     this.id = user.getId();
     this.name = user.getName();
-    this.telephone = user.getTelephone();
+    this.phone = user.getPhone();
     this.email = user.getEmail();
   }
 

@@ -38,7 +38,7 @@ public class User implements UserDetails{
   private Long id;
   private String name;
   private String email;
-  private String telephone;
+  private String phone;
   private String password;
   private LocalDateTime dateSendCode;
   private String codSecurity;
