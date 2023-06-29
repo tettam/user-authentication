@@ -54,13 +54,12 @@ public class UserController {
     return ResponseEntity.ok().body(userDto);
   }
 
-  @PostMapping
+  @PostMapping("/management/new-user")
   public ResponseEntity<UserDTO> insert(@Validated @RequestBody UserDTO obj){
     UserDTO userDto = service.save(obj);
     return ResponseEntity.status(201).body(userDto);
   }
 
-  //Management
   @PostMapping("/management/new-cod")
   public String codRecovery(@RequestBody User user){
     String resultUpdatePassword = management.sendEmailCod(user.getEmail());
@@ -75,7 +74,6 @@ public class UserController {
 
   @PostMapping("/management/login")
   public ResponseEntity<?> login(@RequestBody User user){
-    System.out.println(user);
     UsernamePasswordAuthenticationToken usernamePasswordAuthentication =
       new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
       Authentication authentication = authorizationManager.authenticate(usernamePasswordAuthentication);
@@ -83,7 +81,7 @@ public class UserController {
       User userAuthentication = (User) authentication.getPrincipal(); 
       String token = jwtUtil.generateTokenUsername(userAuthentication);
       HashMap<String, String> map = new HashMap<>();
-      map.put("Token", token);
+      map.put("oken", token);
       return ResponseEntity.ok(map);
 
   }
