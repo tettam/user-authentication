@@ -17,6 +17,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,7 +39,13 @@ public class User implements UserDetails{
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @NotBlank(message = "Nome é obrigatório")
+  @Size(max = 60)
   private String name;
+
+  @NotBlank(message = "Email é obrigatório")
+  @Email(message = "Email inválido")
   private String email;
   private String phone;
   private String password;

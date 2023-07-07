@@ -62,7 +62,7 @@ public class UserManagementService {
     return "Senha alterada com sucesso!";
   }
 
-  private String getCodRecoveryPassword(Long id){
+  protected String getCodRecoveryPassword(Long id){
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssmm");
     return dateTime.format(format)+id;

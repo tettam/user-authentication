@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcotettamanti.userauthentication.dto.UserDTO;
-import com.marcotettamanti.userauthentication.exceptions.UserExceptions;
+import com.marcotettamanti.userauthentication.exceptions.UserNotFoundException;
 import com.marcotettamanti.userauthentication.model.entities.User;
 import com.marcotettamanti.userauthentication.model.enums.ServiceTypeTemplate;
 import com.marcotettamanti.userauthentication.repositoty.UserRepository;
@@ -47,13 +47,17 @@ public class UserService {
       
     } catch (NoSuchElementException e) {
       e.printStackTrace();
-      throw new  UserExceptions("Usuário não encontrado " + id);
+      throw new  UserNotFoundException("Usuário não encontrado " + id);
     } 
   }
 
   @Transactional
   public UserDTO save(UserDTO object){
     try {
+      User verifyEmail = repository.findByEmail(object.getEmail());
+      if(verifyEmail != null){
+        throw new UserNotFoundException("Email já cadastrado");
+      }
       User entity = new UserDTO().convertDtoToUser(object);
       UserDTO dto = new UserDTO(repository.saveAndFlush(entity));
       Map<String, Object> properties = new HashMap<>();
@@ -63,7 +67,7 @@ public class UserService {
       return dto;
 
     } catch (DataAccessException e) {
-      throw new UserExceptions("Erro ao cadastrar usuário " + e.getMessage());
+      throw new UserNotFoundException("Erro ao cadastrar usuário " + e.getMessage());
     } 
   }
 }

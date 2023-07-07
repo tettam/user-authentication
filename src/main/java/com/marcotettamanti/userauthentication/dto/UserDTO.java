@@ -6,6 +6,8 @@ import com.marcotettamanti.userauthentication.model.entities.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,12 +22,14 @@ public class UserDTO {
 
   private Long id;
 
-  @NotBlank
+  @NotNull(message = "Nome é obrigatório")
+  @NotEmpty(message = "Nome não pode estar vazio")
   @Size(max = 60)
   private String name;
 
-  @NotBlank
-  @Email
+  @NotNull(message = "Email é obrigatório")
+  @NotEmpty(message = "Email não pode estar vazio")
+  @Email(message = "Email inválido")
   private String email;
   private String phone;
 

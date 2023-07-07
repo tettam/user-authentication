@@ -1,4 +1,4 @@
-import java.io.BufferedWriter;
+package com.marcotettamanti.userauthentication.utils;
 
 public class NameTitleCase {
   

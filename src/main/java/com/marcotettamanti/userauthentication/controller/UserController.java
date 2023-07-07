@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +23,7 @@ import com.marcotettamanti.userauthentication.security.JwtUtil;
 import com.marcotettamanti.userauthentication.service.UserDetailService;
 import com.marcotettamanti.userauthentication.service.UserManagementService;
 import com.marcotettamanti.userauthentication.service.UserService;
+import com.marcotettamanti.userauthentication.utils.NameTitleCase;
 
 
 @RestController
@@ -56,6 +56,8 @@ public class UserController {
 
   @PostMapping("/management/new-user")
   public ResponseEntity<UserDTO> insert(@Validated @RequestBody UserDTO obj){
+    String nameTitleCase = NameTitleCase.titleCase(obj.getName());
+    obj.setName(nameTitleCase);
     UserDTO userDto = service.save(obj);
     return ResponseEntity.status(201).body(userDto);
   }
